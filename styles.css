@@ -1,0 +1,646 @@
+/*======== GERAL ====================================*/
+:root {
+  font-size: 62.5%;
+  --primary-color: #0B2234;
+  --secondary-color: white;
+  --tertiary-color: #575757;
+  
+  --nav-height: 8.4rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+
+  text-align: center;
+  scroll-behavior: smooth;
+  background-color: var(--primary-color);
+  
+  /* overflow: overlay;  /* não funciona no firefox */
+}
+.wrapper {
+  width: min(50rem, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+.buttonContact {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+
+  width: fit-content;
+
+  margin-top: 4.8rem;
+  margin-bottom: 6rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.6rem 3.2rem;
+
+  border: none;
+  border-radius: 4rem;
+  
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.8rem;
+  text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  background-color: var(--primary-color);
+
+  transition: all 200ms ease-in-out;
+}
+.buttonContact:hover {
+  background-color: var(--primary-color-hover);
+}
+section {
+  padding-top: calc(1.5rem + var(--nav-height) );
+  padding-inline: 4rem;
+  min-height: 100vh;
+}
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .2rem;
+}
+section header h1,
+section .wrapper h2 {
+  position: relative;
+  max-width: 260px;
+  margin-bottom: 2.4rem;
+
+  font-size: 3.2rem;
+  line-height: 150%;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+}
+section header h1::after,
+section .wrapper h2::after {
+  content: '';
+  width: 100vw;
+  height: 1px;
+  top: calc(100% + 2.4rem);
+  right: 100%;
+  background-color: var(--secondary-color);
+  position: absolute;
+  display: block;
+}
+/* section header h2{
+  font-size: 3.0rem;
+  text-transform: uppercase;
+  line-height: 3.9rem;
+  color: white;
+} */
+section h4::before,
+section .wrapper h2 + p::before{
+  content: '';
+  width: 50%;
+  height: 1px;
+  top: 0;
+  background-color: var(--secondary-color);
+  position: absolute;
+  display: block;
+}
+section .wrapper p {
+  padding-top: 2.4rem;
+
+  font-size: 1.6rem;
+  line-height: 150%;
+  text-align: left;
+  text-transform: uppercase;
+  color: white;
+  display: block;
+  font-weight: 300;
+  position: relative;
+}
+section img {
+  width: 100%;
+  border-radius: .6rem;
+}
+.social-links ul {
+  display: flex;
+  flex-direction: row;
+  gap: 3.2rem;
+  justify-content: center;
+}
+
+/*======== NAV ====================================*/
+nav {
+  position: fixed;
+  top: 4.6rem;
+
+  width: 100%;
+  height: var(--nav-height);
+  padding: 1.6rem 2.4rem;
+  
+  display: flex;
+  background-color: white;
+  transition: height .3s ease-in-out;
+
+  z-index: 100;
+}
+nav .menu,
+nav .closeMenu {
+  display: none;
+}
+nav .wrapper {
+  display: grid;
+  grid-template-areas: 
+  'logo button'
+  'menu menu';
+  grid-template-rows: auto auto;
+  align-self: center;
+  align-items: stretch;
+  border: none;
+}
+nav .wrapper .logo {
+  grid-area: logo;
+  justify-self: start;
+  align-content: center;
+}
+nav .wrapper .logo img{
+  width:  13rem;
+  height: 3.6rem;
+}
+nav .openMenu path {
+  stroke: var(--secondary-color);
+}
+nav .wrapper button{
+  grid-area: button;
+  justify-self: end;
+
+  background-color: transparent;
+  border: none;
+}
+nav, nav.scroll{
+  background-color: rgba(255,255,255,.23);
+}
+/*======== MENU EXPANDED ====================================*/
+body.menu-expanded{
+  overflow: hidden;
+}
+body.menu-expanded > :not(nav) {
+  visibility: hidden;
+}
+body.menu-expanded nav{
+  top: 0;
+  height: 100%;
+  background-color: white;
+}
+body.menu-expanded nav .menu{
+  grid-area: menu;
+
+  margin-block: auto;
+}
+body.menu-expanded nav .openMenu {
+  display: none;
+}
+body.menu-expanded nav .menu,
+body.menu-expanded nav .closeMenu {
+  display: block;
+  transform: translateY(0);
+}
+body.menu-expanded .menu > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4.8rem;
+}
+body.menu-expanded .menu > ul li a{
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 3.1rem;
+  color: var(--tertiary-color);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+body.menu-expanded .menu .social-links{
+  margin-top: 15rem;
+}
+body.menu-expanded .menu .social-links svg *{
+  stroke: var(--tertiary-color);
+}
+body.menu-expanded nav .closeMenu {
+  grid-area: 'button';
+}
+body.menu-expanded nav .closeMenu path{
+  stroke: var(--tertiary-color);
+  stroke-width: 4;
+}
+body.menu-expanded nav .wrapper{
+  width: min(50rem, 100%);  
+  grid-template-rows: auto 80vh;
+}
+/*======== HOME/HEADER ====================================*/
+#home {
+  padding-top: calc(20rem + var(--nav-height) );
+  background-image: url('./assets/1.jpg');
+  background-size: auto 100vh;
+  background-position: 40%;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+#home header h4 {
+  max-width: 280px;
+  padding-top: 2.4rem;
+
+  font-size: 1.6rem;
+  line-height: 150%;
+  text-align: left;
+  text-transform: uppercase;
+  color: white;
+  display: block;
+  font-weight: 300;
+  position: relative;
+}
+
+/*======== ABOUT ====================================*/
+#about .wrapper{
+  padding-block: 10rem;
+}
+#about .wrapper h2.missao{
+  margin-top: 10rem;
+}
+#about .wrapper p {
+  margin-bottom: 2rem;
+}
+/*======== INDUSTRY ====================================*/
+#industry{
+  position: relative;
+}
+#industry .wrapper-full{
+  display: flex;
+  flex-direction: row;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  overflow: visible;
+  transition: transform .3s ease-in-out;
+}
+#industry .wrapper-full div:not(.scrollbar, .direita, .esquerda){
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex: 1 0 0;
+  justify-content: center;
+  align-items: flex-end;
+}
+#industry .wrapper-full div img{
+  width: 30rem;
+}
+#industry .wrapper-full div:not(.scrollbar, .direita, .esquerda)::before{
+  content: '';
+  width: 100vw;
+  height: 100vh;
+  background-size: auto 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  display: block;
+  z-index: -1;
+}
+#industry .wrapper-full div.tech::before{
+  background-color: blue;
+  background-image: url('./assets/tech.jpg');
+}
+#industry .wrapper-full div.safety::before{
+  background-color: green;
+  background-image: url('./assets/safety.jpg');
+}
+#industry .wrapper-full div.systems::before{
+  background-image: url('./assets/systems.jpg');
+}
+#industry .wrapper-full div.academy::before{
+  background-image: url('./assets/academy.jpg');
+}
+#industry div.scrollbar{
+  max-width: calc(100% - 8rem);
+  height: 2.5rem;
+  position: absolute;
+  bottom:2.5rem;
+  display: flex;
+
+  flex-direction: row;
+  gap: 5rem;
+  justify-content: center;
+  /* alinha os itens na horizontal pois o flex-direction ta como row */
+  
+  width: calc(100vw - 8rem);
+  z-index: 1000;
+}
+#industry .wrapper-full div.scrollbar div.esquerda{
+  justify-self: right;
+}
+#industry .wrapper-full div.scrollbar div.direita{
+  justify-self: left;
+}
+
+/*======== SERVICES ====================================*/
+
+/*======== CONTACT ====================================*/
+
+#contact {
+  padding-block: 10rem ;
+}
+#contact h2{
+  text-align: left;
+  
+  margin-bottom: 3.2rem;
+}
+#contact p{
+  display: flex;
+  align-items:center;
+  column-gap:.8rem;
+}
+#contact p:not(:last-of-type){
+  margin-bottom: 1.6rem;
+}
+#contact .buttonContact{
+  margin-left: 0;
+  margin-top: 3.2rem;
+  margin-bottom: 6rem;
+}
+#contact .wrapper img{
+  height: 40rem;
+  object-fit: cover;
+  object-position: 0 -12rem;
+}
+#contact .wrapper .content svg#phone path{
+  fill: var(--primary-color);
+  stroke: var(--primary-color);
+}
+#contact .wrapper .content a.buttonContact svg path{
+  stroke: none !important;
+}
+#contact .wrapper .content svg:not(#phone) path{
+  stroke: var(--primary-color);
+}
+/*======== FOOTER ====================================*/
+footer {
+  padding-inline: 2.6rem;
+  padding-block: 6rem;
+  text-align: left;
+
+  background-color: var(--primary-color);
+}
+footer .wrapper .logo{
+  width:  10rem;
+  height: auto;
+  margin-bottom: 2rem;
+}
+footer .wrapper .content > svg{
+  margin-bottom: 2.4rem;
+}
+footer p:first-of-type{
+  margin-bottom: 1.2rem;
+}
+footer p{
+  color: var(--alternate-color);
+}
+footer .social-links ul{
+  margin-bottom: 2.4rem;
+}
+footer .social-links ul {
+  justify-content: flex-end;
+}
+footer svg path{
+  stroke: var(--primary-color);
+}
+footer svg path{
+  stroke: white;
+}
+footer h2{
+  color: white;
+}
+footer .wrapper .social-links{
+  grid-area: C;
+  align-self: flex-start;
+  justify-self: flex-end;
+  text-align: right;
+}
+
+/*======== BACK TO TOP BUTTON ====================================*/
+#backToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 4.2rem;
+  height: 4.2rem;
+
+  border: .1rem solid white;
+  border-radius: 50%;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all .2s ease-in-out;
+}
+#backToTop svg circle{
+  fill: var(--primary-color);
+  transition: all .2s ease-in-out;
+}
+#backToTop:hover svg circle{
+  fill: var(--primary-color-hover);
+}
+#backToTop.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+/*======== RESPONSIVIDADE ====================================*/
+@media (min-width: 1024px) {
+  /*======== RESET ====================================*/
+  nav#navigation .wrapper *{
+    margin: 0;
+    padding: 0;
+    visibility: initial;
+    display: initial;
+    opacity: initial;
+    flex-direction: initial;
+    position: initial;
+    font-weight: initial;
+    transform: initial;
+    color: initial;
+    background-color: initial;
+    grid-template-areas: initial;
+  }
+  /*======== GERAL ====================================*/
+  .wrapper {
+    width: min(112rem, 100%);
+  }
+  section:not(#home){
+    padding-block: 16rem;
+  }
+  section:not(#home) h2{
+    font-size: 4rem;
+    line-height: 5.2rem;
+  }
+  /*======== NAVIGATION ====================================*/
+  nav#navigation .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 
+    'logo menu';
+  }
+  nav#navigation .menu{
+    display: block;
+  }
+  nav#navigation .menu ul{
+    display: flex;
+    justify-content: space-between;
+    gap: 3.2rem;
+    padding-block: 1rem;
+  }
+  nav#navigation .menu ul li{
+    gap: 3.2rem;
+  }
+    nav#navigation .menu ul li a{
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.7;
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+  }
+  nav#navigation .menu ul li a.active,
+  nav#navigation .menu ul li a:hover{
+    color: var(--primary-color);
+    opacity: 1;
+  }
+  nav#navigation .wrapper button,
+  nav#navigation .wrapper .social-links{
+    display: none;
+  }
+  nav#navigation.scroll .menu ul li a.active::after,
+  nav#navigation.scroll .menu ul li a:hover::after{
+    background-color: var(--primary-color);
+  }
+  /*======== HOME ====================================*/
+  #home::before{
+    height: calc(95% - var(--nav-height));
+  }
+  #home {
+    background-size: 100% auto;
+  }
+  #home header{
+    text-align: right;
+  }
+  #home header h1{
+    font-size: 4rem;
+    margin-bottom: 0;
+
+    max-width:100%;
+    text-align: right;
+  }
+  #home header h4{
+    font-size: 1.8rem;
+
+    max-width:100%;
+    text-align: right;
+    position: relative;
+    display: inline-block;
+  }
+  #home h1::after{
+    display: none;
+  }
+  #home h4::before{
+    content: '';
+    width: 100vw;
+    height: 1px;
+    transform: translateX(-101%);
+    top: 3.8rem;
+    background-color: var(--secondary-color);
+    position: absolute;
+    display: block;
+  }
+  /*======== ABOUT ====================================*/
+  #about h2{
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+  #about h2::after{
+    display: none;
+  }
+  #about h2 + p::before{
+    content: '';
+    width: 100vw;
+    height: 1px;
+    transform: translateX(-101%);
+    top: 3.8rem;
+    background-color: var(--secondary-color);
+    position: absolute;
+    display: block;
+  }
+  /*======== SERVICES ====================================*/
+  #services h2{
+    width: 50rem;
+    margin-inline: auto;
+    margin-bottom: 6.4rem;
+  }
+  #services .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  #services .cards .card img {
+    max-height: 16rem;
+    object-fit: cover;
+  }
+    /*======== CONTACT ====================================*/
+    #contact .wrapper{
+      display: grid;
+      grid-template-areas: 'A B';
+      padding: 0;
+      column-gap: 6.7rem;
+    }
+    #contact .wrapper .col-A{
+      grid-area: A;
+      align-self: center;
+    }
+    #contact h2{
+      width: 30rem;
+      margin-bottom: 4rem;
+    }
+    #contact .buttonContact{
+      margin-bottom: 0;
+    }
+    /*======== FOOTER ====================================*/
+    footer {
+      padding-block: 8rem;
+    }
+    footer .wrapper .content{
+      display: grid;
+      grid-template-areas: 'A B C';
+      grid-template-columns: 1fr 2fr 1fr;
+      padding: 0;
+      column-gap: 6.7rem;
+      align-items: start;
+    }
+    footer .wrapper .content .col-A{
+      grid-area: A;
+    }
+    footer .wrapper .content .col-B{
+      grid-area: B;
+    }
+    footer .wrapper .social-links{
+      grid-area: C;
+      align-self: flex-start;
+      justify-self: flex-end;
+      text-align: right;
+    }
+}
