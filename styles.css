@@ -135,7 +135,12 @@ section img {
   gap: 3.2rem;
   justify-content: center;
 }
-
+.slide{
+  user-select: none;
+}
+.grabbing{
+  cursor:grabbing;
+}
 /*======== NAV ====================================*/
 nav {
   position: fixed;

@@ -56,64 +56,60 @@ function closeMenu() {
     .setAttribute('src', './assets/logo_proaero_branco.svg');
 }
 
+//-------------SLIDER-BEGIN----------------//
+const sliderContainerWidth = document.querySelector(
+    '#industry .wrapper-full',
+  ).offsetWidth, // pega o tamanho do container de todos os slides
+  sliderItemWidth = document.querySelector('#industry .slide').offsetWidth, // Pega o tamanho do slide em pixels (ele é igual pra todos pois é o width dos slides são 100vw)
+  lastSlideTranslatePosition = -sliderContainerWidth + sliderItemWidth;
+
+function findCurrentSlideTranslateX() {
+  numberValue = document
+    .querySelector('#industry .wrapper-full')
+    .style.transform.replace('translateX(', '')
+    .replace('px)', '');
+  // separa apenas o valor numérico contidos na propriedade transform
+  return parseInt(numberValue);
+}
+function setNextSlideTranslatePosition(translateNumber) {
+  document.querySelector(
+    '#industry .wrapper-full',
+  ).style.transform = `translateX(${translateNumber}px)`;
+}
 function scrollToLeft() {
+  let currentSlideTranslateX = findCurrentSlideTranslateX();
   if (
-    document.querySelector('#industry .wrapper-full').style.transform !=
-    'initial' // se não for primeiro slide segue abaixo
+    currentSlideTranslateX == null ||
+    currentSlideTranslateX == '' ||
+    currentSlideTranslateX == '0' ||
+    !currentSlideTranslateX
   ) {
-    numberValue = document
-      .querySelector('#industry .wrapper-full')
-      .style.transform.substr(11, 4);
-    if (numberValue == null || numberValue == '') {
-      document.querySelector('#industry .wrapper-full').style.transform =
-        'translateX(-300vw)';
-    } else {
-      if (numberValue != -100) {
-        numberValue = parseInt(numberValue) + 100;
-        document.querySelector(
-          '#industry .wrapper-full',
-        ).style.transform = `translateX(${numberValue}vw)`;
-      } else {
-        document.querySelector(
-          '#industry .wrapper-full',
-        ).style.transform = `initial`;
-      }
-    }
+    // verifica se é o primeiro slide da direita pra esquerda
+    setNextSlideTranslatePosition(lastSlideTranslatePosition);
+    // move para o ultimo slide
   } else {
-    document.querySelector('#industry .wrapper-full').style.transform =
-      'translateX(-300vw)'; // se for o primeiro volta pro ultimo
+    if (currentSlideTranslateX >= lastSlideTranslatePosition) {
+      // verifica se o numero for maior ou igual a ultima posição
+      currentSlideTranslateX = currentSlideTranslateX + sliderItemWidth;
+      setNextSlideTranslatePosition(currentSlideTranslateX);
+    }
   }
 }
-
 function scrollRight() {
-  if (
-    document.querySelector('#industry .wrapper-full').style.transform !=
-    'initial'
-  ) {
-    numberValue = document
-      .querySelector('#industry .wrapper-full')
-      .style.transform.substr(11, 4);
-    if (numberValue == null || numberValue == '') {
-      document.querySelector('#industry .wrapper-full').style.transform =
-        'translateX(-100vw)';
-    } else {
-      if (numberValue > -300) {
-        numberValue = numberValue - 100;
-        document.querySelector(
-          '#industry .wrapper-full',
-        ).style.transform = `translateX(${numberValue}vw)`;
-      } else {
-        document.querySelector(
-          '#industry .wrapper-full',
-        ).style.transform = `initial`;
-      }
-    }
+  let currentSlideTranslateX = findCurrentSlideTranslateX();
+  if (currentSlideTranslateX == lastSlideTranslatePosition) {
+    // verifica se é o ultimo slide da direita pra esquerda
+    setNextSlideTranslatePosition(0); // move para o ultimo slide
   } else {
-    document.querySelector('#industry .wrapper-full').style.transform =
-      'translateX(-100vw)';
+    if (currentSlideTranslateX > lastSlideTranslatePosition) {
+      // verifica se o numero for menor a ultima posição
+      currentSlideTranslateX = currentSlideTranslateX - sliderItemWidth;
+      setNextSlideTranslatePosition(currentSlideTranslateX);
+    }
   }
 }
 
+//-------------SLIDER-END----------------//
 ScrollReveal({
   origin: 'top',
   distance: '50px',
