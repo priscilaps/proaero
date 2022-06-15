@@ -140,6 +140,7 @@ section img {
 }
 .grabbing{
   cursor:grabbing;
+  transition: transform .1s ease-in-out;
 }
 /*======== NAV ====================================*/
 nav {
@@ -286,29 +287,31 @@ body.menu-expanded nav .wrapper{
   position: relative;
 }
 #industry .wrapper-full{
-  display: flex;
-  flex-direction: row;
-
+  width: 100vw;
   position: absolute;
   top: 0;
   left: 0;
 
-  overflow: visible;
+  overflow: hidden;
+}
+#industry .slider-container{
+  display: flex;
+  flex-direction: row;
+
   transition: transform .3s ease-in-out;
 }
-#industry .wrapper-full div:not(.scrollbar, .direita, .esquerda){
-  width: 100vw;
+#industry .wrapper-full .slider-container .slide{
   height: 100vh;
 
   display: flex;
-  flex: 1 0 0;
+  flex: 100vw 0 0;
   justify-content: center;
   align-items: flex-end;
 }
-#industry .wrapper-full div img{
+#industry .wrapper-full .slider-container .slide img{
   width: 30rem;
 }
-#industry .wrapper-full div:not(.scrollbar, .direita, .esquerda)::before{
+#industry .wrapper-full .slider-container .slide::before{
   content: '';
   width: 100vw;
   height: 100vh;
@@ -318,19 +321,24 @@ body.menu-expanded nav .wrapper{
   position: absolute;
   display: block;
   z-index: -1;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
 }
-#industry .wrapper-full div.tech::before{
+#industry .wrapper-full .slider-container.grabbing .slide::before{
+  opacity: 0.5;
+}
+#industry .wrapper-full .slider-container div.tech::before{
   background-color: blue;
   background-image: url('./assets/tech.jpg');
 }
-#industry .wrapper-full div.safety::before{
+#industry .wrapper-full .slider-container div.safety::before{
   background-color: green;
   background-image: url('./assets/safety.jpg');
 }
-#industry .wrapper-full div.systems::before{
+#industry .wrapper-full .slider-container div.systems::before{
   background-image: url('./assets/systems.jpg');
 }
-#industry .wrapper-full div.academy::before{
+#industry .wrapper-full .slider-container div.academy::before{
   background-image: url('./assets/academy.jpg');
 }
 #industry div.scrollbar{
@@ -348,10 +356,10 @@ body.menu-expanded nav .wrapper{
   width: calc(100vw - 8rem);
   z-index: 1000;
 }
-#industry .wrapper-full div.scrollbar div.esquerda{
+#industry div.scrollbar div.esquerda{
   justify-self: right;
 }
-#industry .wrapper-full div.scrollbar div.direita{
+#industry div.scrollbar div.direita{
   justify-self: left;
 }
 
