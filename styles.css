@@ -296,7 +296,7 @@ body.menu-expanded nav .wrapper{
   display: flex;
   flex-direction: row;
 
-  transition: transform .3s ease-in-out;
+  transition: transform .3s;
 }
 #industry .wrapper-full .slider-container .slide{
   height: 100vh;
@@ -321,7 +321,7 @@ body.menu-expanded nav .wrapper{
   display: block;
   z-index: -1;
   opacity: 1;
-  transition: opacity .3s ease-in-out;
+  transition: opacity .3s;
 }
 #industry .wrapper-full .slider-container.grabbing .slide::before{
   opacity: 0.5;
@@ -413,9 +413,9 @@ body.menu-expanded nav .wrapper{
 }
 #services .wrapper-full .slider-container::before{
   content: '';
-  width: 100vw;
+  width: 400vw;
   height: 100vh;
-  background-size: auto 100vh;
+  background-size: 400vw auto;
   background-position: left;
   background-repeat: no-repeat;
   position: absolute;
@@ -584,7 +584,7 @@ footer .wrapper .social-links{
     width: min(112rem, 100%);
   }
   section:not(#home){
-    padding-block: 16rem;
+    padding-block: 5rem;
   }
   section:not(#home) h2{
     font-size: 4rem;

@@ -57,21 +57,11 @@ function closeMenu() {
 }
 
 //-------------SLIDER-BEGIN----------------//
-const sliderContainer = document.querySelector(
-    '#industry .wrapper-full .slider-container',
-  ),
-  qtdSlide = sliderContainer.childElementCount;
-
-sliderContainer.style.width = `${qtdSlide * 100}vw`;
-
-const sliderContainerWidth = sliderContainer.offsetWidth, // pega o tamanho do container de todos os slides
-  sliderItemWidth = document.querySelector('#industry .slide').offsetWidth, // Pega o tamanho do slide em pixels (ele é igual pra todos pois é o width dos slides são 100vw)
-  lastSlideTranslatePosition = -sliderContainerWidth + sliderItemWidth;
-
-sliderContainer.onpointerdown = dragStart;
-sliderContainer.onpointerup = dragEnd;
-
-let currentSlideTranslateX = 0,
+let sliderContainer,
+  sliderContainerWidth,
+  sliderItemWidth,
+  lastSlideTranslatePosition,
+  currentSlideTranslateX = 0,
   pointerFirstPosition = 0,
   pointerCurrentPosition = 0,
   isDragging = false,
@@ -79,20 +69,52 @@ let currentSlideTranslateX = 0,
   animationID,
   transitioningTranslateX;
 
+function setSlider(slider) {
+  sliderContainer = document.querySelector(
+    `${slider} .wrapper-full .slider-container`,
+  );
+  let qtdSlide = sliderContainer.childElementCount;
+
+  sliderContainer.style.width = `${qtdSlide * 100}vw`;
+
+  sliderContainerWidth = sliderContainer.offsetWidth; // pega o tamanho do container de todos os slides
+  sliderItemWidth = document.querySelector('#industry .slide').offsetWidth; // Pega o tamanho do slide em pixels (ele é igual pra todos pois é o width dos slides são 100vw)
+  lastSlideTranslatePosition = -sliderContainerWidth + sliderItemWidth;
+}
+
+document.querySelector(
+  `#industry .wrapper-full .slider-container`,
+).onpointerdown = dragStart;
+document.querySelector(
+  `#industry .wrapper-full .slider-container`,
+).onpointerup = dragEnd;
+document.querySelector(
+  `#services .wrapper-full .slider-container`,
+).onpointerdown = dragStart;
+document.querySelector(
+  `#services .wrapper-full .slider-container`,
+).onpointerup = dragEnd;
+
 document
-  .querySelector('.scrollbar div.esquerda')
+  .querySelector('#industry .scrollbar div.esquerda')
   .addEventListener('pointerdown', isItClick);
 document
-  .querySelector('.scrollbar div.direita')
+  .querySelector('#industry .scrollbar div.direita')
+  .addEventListener('pointerdown', isItClick);
+document
+  .querySelector('#services .scrollbar div.esquerda')
+  .addEventListener('pointerdown', isItClick);
+document
+  .querySelector('#services .scrollbar div.direita')
   .addEventListener('pointerdown', isItClick);
 
 function isItClick(e) {
   triggeredByClick = true;
-  console.log('click');
 }
 function dragStart(e) {
   e.preventDefault();
   triggeredByClick = false;
+  setSlider(`#${e.currentTarget.parentNode.parentNode.id}`);
   pointerFirstPosition = e.clientX;
   currentSlideTranslateX = findCurrentSlideTranslateX();
   transitioningTranslateX = currentSlideTranslateX;
@@ -103,7 +125,11 @@ function dragStart(e) {
 }
 function dragEnd(e) {
   if (isDragging) {
-    shiftSlide(defineDirection(), currentSlideTranslateX);
+    shiftSlide(
+      `#${e.currentTarget.parentNode.parentNode.id}`,
+      defineDirection(),
+      currentSlideTranslateX,
+    );
   }
   isDragging = false;
   cancelAnimationFrame(animation);
@@ -154,7 +180,8 @@ function defineDirection() {
     }
   }
 }
-function shiftSlide(dir, currentSlideTranslateX) {
+function shiftSlide(slider, dir, currentSlideTranslateX) {
+  setSlider(slider);
   if (!currentSlideTranslateX && triggeredByClick == true) {
     currentSlideTranslateX = findCurrentSlideTranslateX();
   }
