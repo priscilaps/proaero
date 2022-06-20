@@ -53,7 +53,7 @@ function closeMenu() {
   document.querySelector('body').classList.remove('menu-expanded');
   document
     .querySelector('nav .wrapper .logo img')
-    .setAttribute('src', './assets/logo_proaero_branco.svg');
+    .setAttribute('src', './assets/Logo-PRO-AERO-principal-sem-sombras.svg');
 }
 
 //-------------SLIDER-BEGIN----------------//
