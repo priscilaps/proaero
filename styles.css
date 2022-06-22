@@ -285,9 +285,9 @@ body.menu-expanded nav .wrapper{
   position: relative;
 }
 #industry .wrapper-full{
-  width: 100vw;
+  width: 100%;
   position: absolute;
-  top: 0;
+  top: var(--nav-height);
   left: 0;
 
   overflow: hidden;
@@ -299,7 +299,7 @@ body.menu-expanded nav .wrapper{
   transition: transform .3s;
 }
 #industry .wrapper-full .slider-container .slide{
-  height: 100vh;
+  height: calc(100vh - var(--nav-height));
 
   display: flex;
   flex: 100vw 0 0;
@@ -313,8 +313,8 @@ body.menu-expanded nav .wrapper{
 #industry .wrapper-full .slider-container .slide::before{
   content: '';
   width: 100vw;
-  height: 100vh;
-  background-size: auto 100vh;
+  height: 100%;
+  background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
@@ -367,7 +367,7 @@ body.menu-expanded nav .wrapper{
   position: relative;
 }
 #services .wrapper-full{
-  width: 100vw;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -483,86 +483,79 @@ body.menu-expanded nav .wrapper{
 }
 
 /*======== CONTACT ====================================*/
-
 #contact {
-  padding-block: 10rem ;
+  position: relative;
+
   background-image: url('./assets/Contato-bg.png');
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center;
   background-size: cover;
 }
-#contact h2{
-  text-align: left;
-  font-size: 2.4rem;
-  line-height: 2.9rem; 
-  
-  margin-bottom: 2.4rem;
+#contact .wrapper{
+  padding-block: 5rem;
 }
-#contact .wrapper img{
-  margin-top: 1.3rem;
-  height: 20rem;
-  object-fit: contain;
+#contact > .wrapper > img{
+  padding-top: 5rem;
+  width: 20rem;
 }
 /*======== FOOTER ====================================*/
-footer {
-  background-color: var(--primary-color);
-}
-footer .wrapper{
-  padding-inline: 2.6rem;
-  padding-block: 6rem;
+#contact footer{
+  position: absolute;
+  left:0;
+  width: 100%;
   height: 100vh;
 
   display: flex;
+
+  background-color: var(--primary-color);
+}
+#contact footer .wrapper{
+  padding: 5rem;
+  height: auto;
+  display: flex;
   flex-direction: column;
+  gap: 2rem;
+
   justify-content: space-around;
   align-items: center;
 }
-footer .wrapper .logo{
-  width:  25.8rem;
+#contact footer .wrapper .logo img{
+  width: 25.8rem;
+}
+#contact footer .wrapper .social-links h2{
+  width: fit-content;
+  font-size: 3.2rem;
+  line-height: 3.9rem; 
+  max-width: 100%;
+}
+#contact footer .wrapper .social-links svg{
+  width: 5rem;
   height: auto;
-  margin-bottom: 2rem;
 }
-footer .wrapper .logo img{
-  width: 100%;
+#contact footer .wrapper .social-links h2::after{
+  display: none;
 }
-footer .social-links h2{
-  line-height: 3.9rem;
-  text-transform: uppercase;
-  margin-bottom: 3rem;
-  text-align: center;
-  color: white;
-}
-footer .social-links ul{
+#contact footer .wrapper .social-links ul{
   display: flex;
   flex-direction: row;
-  justify-items: space-between;
-  align-self: center;
-  margin-bottom: 2.4rem;
+  gap: 5rem;
+  justify-content: space-between;
+  align-items: center;
 }
-footer .infos{
-  align-self: stretch;
+#contact footer .wrapper .infos{
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-footer .infos p{
-  color: white;
-  font-size: 2rem;
-  line-height: 2.4rem; 
-  text-transform: uppercase;
-}
-footer .infos p:first-of-type{
-  justify-self: flex-start;
-  text-align: left;
-}
-footer .infos p:last-of-type{
-  justify-self: flex-end;
-  text-align: right;
-}
-footer .infos p span{
+#contact footer .wrapper .infos span{
   display: block;
   font-weight: bold;
 }
+#contact footer .wrapper .infos p:last-of-type{
+  text-align: right;
+}
+
 /*======== BACK TO TOP BUTTON ====================================*/
 #backToTop {
   position: fixed;
@@ -613,7 +606,8 @@ footer .infos p span{
     width: min(112rem, 100%);
   }
   section:not(#home){
-    padding-block: 5rem;
+    padding-bottom: 5rem;
+    padding-top: calc(5rem + var(--nav-height) );
   }
   section:not(#home) h2{
     font-size: 4rem;
@@ -699,6 +693,9 @@ footer .infos p span{
     display: block;
   }
   /*======== ABOUT ====================================*/
+  section#about {
+    padding-bottom: 0;
+  }
   #about h2{
     max-width: 100%;
     margin-bottom: 0;
@@ -723,7 +720,6 @@ footer .infos p span{
   #industry .wrapper-full .slider-container .slide{
     max-width: 25vw;
     flex: 1 0 0;
-    padding-bottom: 2rem;
   }
   #industry .wrapper-full .slider-container .slide::before{
     max-width: 25vw;
@@ -771,74 +767,66 @@ footer .infos p span{
       width: 40rem;
     }
     /*======== CONTACT ====================================*/
-    section#contact{
-      padding-top: 10rem;
-     }
     #contact .wrapper{
-      margin-bottom: 5rem;
-      
-      display: grid;
-      grid-template-areas: 'A B';
-      grid-template-columns: 4fr 1fr;
-      column-gap: 6.7rem;
+      height: calc(100vh - var(--nav-height));
 
-      z-index: 0;
-    }
-    #contact .wrapper .col-A{
-      grid-area: A;
-      align-self: center;
-    }
-    #contact .wrapper .col-B{
-      grid-area: B;
-      align-self: center;
-    }
-    #contact h2{
-      max-width: 100%;
-      margin-bottom: 0;
-      min-width: fit-content;
-    }
-    #contact h2::after{
-      display: none;
-    }
-    #contact h2 + p::before{
-      content: '';
-      width: 100vw;
-      height: 1px;
-      transform: translateX(-101%);
-      top: 3.8rem;
-      background-color: var(--secondary-color);
-      position: absolute;
-      display: block;
-    }
-    /*======== FOOTER ====================================*/
-    footer {
-      padding-block: 0;
-      margin-top: -50vh;
-      background-color: transparent;
-      z-index: 1;
-      position: relative;
-    }    
-    footer .wrapper{
-      padding:0;
-      height: 50%;
-      
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      gap: 5rem;
+
+      align-self: center;
+    }
+    #contact > .wrapper > img{
+      padding-top: 5rem;
+      width: 100%;
+      max-width: 20rem;
+    }
+    /*======== FOOTER ====================================*/
+    #contact footer{
+      height: auto;
+    }
+    #contact footer .wrapper{
+      width: 100%;
+      padding: 5rem;
+      height: auto;
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+
+      justify-content: space-around;
       align-items: center;
     }
-    footer .infos{
-      display: flex; 
+    #contact footer .wrapper .logo img{
+      width: 25.8rem;
+    }
+    #contact footer .wrapper .social-links h2{
+      width: fit-content;
+      line-height: 3.9rem; 
+      max-width: 100%;
+    }
+    #contact footer .wrapper .social-links h2::after{
+      display: none;
+    }
+    #contact footer .wrapper .social-links ul{
+      display: flex;
+      flex-direction: row;
+      gap: 5rem;
+    }
+    #contact footer .wrapper .infos {
+      width: initial;
+      display: flex;
       flex-direction: column;
-      align-self: center;
-      justify-content: flex-start;
     }
-    footer .infos p:not(:last-of-type){
-      margin-bottom: 2.6rem;
+    #contact footer .wrapper .infos p{
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
     }
-    footer .infos p:last-of-type{
-      align-self: flex-start;
-      justify-self: center;
+    #contact footer .wrapper .infos span {
+      display: unset;
+      width: min-content;
+    }
+    #contact footer .wrapper .infos p:last-of-type{
       text-align: left;
     }
 }

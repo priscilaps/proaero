@@ -81,32 +81,38 @@ function setSlider(slider) {
   sliderItemWidth = document.querySelector('#industry .slide').offsetWidth; // Pega o tamanho do slide em pixels (ele é igual pra todos pois é o width dos slides são 100vw)
   lastSlideTranslatePosition = -sliderContainerWidth + sliderItemWidth;
 }
+function setInicialDeviceSize() {
+  prepareEventsForSlideMobile();
+}
+function prepareEventsForSlideMobile() {
+  if (window.outerWidth < 1024) {
+    document.querySelector(
+      `#industry .wrapper-full .slider-container`,
+    ).onpointerdown = dragStart;
+    document.querySelector(
+      `#industry .wrapper-full .slider-container`,
+    ).onpointerup = dragEnd;
+    document.querySelector(
+      `#services .wrapper-full .slider-container`,
+    ).onpointerdown = dragStart;
+    document.querySelector(
+      `#services .wrapper-full .slider-container`,
+    ).onpointerup = dragEnd;
 
-document.querySelector(
-  `#industry .wrapper-full .slider-container`,
-).onpointerdown = dragStart;
-document.querySelector(
-  `#industry .wrapper-full .slider-container`,
-).onpointerup = dragEnd;
-document.querySelector(
-  `#services .wrapper-full .slider-container`,
-).onpointerdown = dragStart;
-document.querySelector(
-  `#services .wrapper-full .slider-container`,
-).onpointerup = dragEnd;
-
-document
-  .querySelector('#industry .scrollbar div.esquerda')
-  .addEventListener('pointerdown', isItClick);
-document
-  .querySelector('#industry .scrollbar div.direita')
-  .addEventListener('pointerdown', isItClick);
-document
-  .querySelector('#services .scrollbar div.esquerda')
-  .addEventListener('pointerdown', isItClick);
-document
-  .querySelector('#services .scrollbar div.direita')
-  .addEventListener('pointerdown', isItClick);
+    document
+      .querySelector('#industry .scrollbar div.esquerda')
+      .addEventListener('pointerdown', isItClick);
+    document
+      .querySelector('#industry .scrollbar div.direita')
+      .addEventListener('pointerdown', isItClick);
+    document
+      .querySelector('#services .scrollbar div.esquerda')
+      .addEventListener('pointerdown', isItClick);
+    document
+      .querySelector('#services .scrollbar div.direita')
+      .addEventListener('pointerdown', isItClick);
+  }
+}
 
 function isItClick(e) {
   triggeredByClick = true;
@@ -221,10 +227,15 @@ ScrollReveal({
   #home,
   #home img,
   #home .stats,
-  #services,
-  #services .card,
   #about,
   #about img,
+  #industry,
+  #services,
+  #services .card,
+  #systems,
   #contact,
-  #contact img
+  #contact > .wrapper,
+  #contact img,
+  #contact .social-links,
+  #contact .infos
 `);
