@@ -89,7 +89,7 @@ section .wrapper h2 {
 section header h1::after,
 section .wrapper h2::after {
   content: '';
-  width: 100vw;
+  width: 100%;
   height: 1px;
   top: calc(100% + 2.4rem);
   right: 100%;
@@ -451,89 +451,118 @@ body.menu-expanded nav .wrapper{
 #services div.scrollbar div.direita{
   justify-self: left;
 }
+/*======== SYSTEMS ====================================*/
+#systems{
+  background-image: url('./assets/systems-bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#systems .wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+#systems .wrapper h2{
+  text-align: right;
+  margin-left: auto;
+  min-width: fit-content;
+  line-height: 3.9rem;
+}
+#systems .wrapper h2::after {
+  content: '';
+  height: 1px;
+  width: 150vw;
+  top: calc(100% + 2.4rem);
+  right: 50%;
+  background-color: var(--secondary-color);
+  position: absolute;
+  display: block;
+}
+#systems .wrapper .systems div img{
+  width: 20rem;
+}
 
 /*======== CONTACT ====================================*/
 
 #contact {
   padding-block: 10rem ;
+  background-image: url('./assets/Contato-bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 #contact h2{
   text-align: left;
+  font-size: 2.4rem;
+  line-height: 2.9rem; 
   
-  margin-bottom: 3.2rem;
-}
-#contact p{
-  display: flex;
-  align-items:center;
-  column-gap:.8rem;
-}
-#contact p:not(:last-of-type){
-  margin-bottom: 1.6rem;
-}
-#contact .buttonContact{
-  margin-left: 0;
-  margin-top: 3.2rem;
-  margin-bottom: 6rem;
+  margin-bottom: 2.4rem;
 }
 #contact .wrapper img{
-  height: 40rem;
-  object-fit: cover;
-  object-position: 0 -12rem;
-}
-#contact .wrapper .content svg#phone path{
-  fill: var(--primary-color);
-  stroke: var(--primary-color);
-}
-#contact .wrapper .content a.buttonContact svg path{
-  stroke: none !important;
-}
-#contact .wrapper .content svg:not(#phone) path{
-  stroke: var(--primary-color);
+  margin-top: 1.3rem;
+  height: 20rem;
+  object-fit: contain;
 }
 /*======== FOOTER ====================================*/
 footer {
-  padding-inline: 2.6rem;
-  padding-block: 6rem;
-  text-align: left;
-
   background-color: var(--primary-color);
 }
+footer .wrapper{
+  padding-inline: 2.6rem;
+  padding-block: 6rem;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
 footer .wrapper .logo{
-  width:  10rem;
+  width:  25.8rem;
   height: auto;
   margin-bottom: 2rem;
 }
-footer .wrapper .content > svg{
-  margin-bottom: 2.4rem;
+footer .wrapper .logo img{
+  width: 100%;
 }
-footer p:first-of-type{
-  margin-bottom: 1.2rem;
-}
-footer p{
-  color: var(--alternate-color);
-}
-footer .social-links ul{
-  margin-bottom: 2.4rem;
-}
-footer .social-links ul {
-  justify-content: flex-end;
-}
-footer svg path{
-  stroke: var(--primary-color);
-}
-footer svg path{
-  stroke: white;
-}
-footer h2{
+footer .social-links h2{
+  line-height: 3.9rem;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  text-align: center;
   color: white;
 }
-footer .wrapper .social-links{
-  grid-area: C;
-  align-self: flex-start;
+footer .social-links ul{
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+  align-self: center;
+  margin-bottom: 2.4rem;
+}
+footer .infos{
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+footer .infos p{
+  color: white;
+  font-size: 2rem;
+  line-height: 2.4rem; 
+  text-transform: uppercase;
+}
+footer .infos p:first-of-type{
+  justify-self: flex-start;
+  text-align: left;
+}
+footer .infos p:last-of-type{
   justify-self: flex-end;
   text-align: right;
 }
-
+footer .infos p span{
+  display: block;
+  font-weight: bold;
+}
 /*======== BACK TO TOP BUTTON ====================================*/
 #backToTop {
   position: fixed;
@@ -724,46 +753,92 @@ footer .wrapper .social-links{
   #services div.scrollbar{
     display: none;
   }
+    /*======== SYSTEMS ====================================*/
+    #systems .wrapper h2{
+      font-size: 4rem;
+      line-height: 4.9rem;
+    }
+    #systems .wrapper h2::after{
+      top: calc(50% + 2.6rem);
+      right: 98%;
+    }
+    #systems .wrapper .systems{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    #systems .wrapper .systems div img{
+      width: 40rem;
+    }
     /*======== CONTACT ====================================*/
+    section#contact{
+      padding-top: 10rem;
+     }
     #contact .wrapper{
+      margin-bottom: 5rem;
+      
       display: grid;
       grid-template-areas: 'A B';
-      padding: 0;
+      grid-template-columns: 4fr 1fr;
       column-gap: 6.7rem;
+
+      z-index: 0;
     }
     #contact .wrapper .col-A{
       grid-area: A;
       align-self: center;
     }
-    #contact h2{
-      width: 30rem;
-      margin-bottom: 4rem;
+    #contact .wrapper .col-B{
+      grid-area: B;
+      align-self: center;
     }
-    #contact .buttonContact{
+    #contact h2{
+      max-width: 100%;
       margin-bottom: 0;
+      min-width: fit-content;
+    }
+    #contact h2::after{
+      display: none;
+    }
+    #contact h2 + p::before{
+      content: '';
+      width: 100vw;
+      height: 1px;
+      transform: translateX(-101%);
+      top: 3.8rem;
+      background-color: var(--secondary-color);
+      position: absolute;
+      display: block;
     }
     /*======== FOOTER ====================================*/
     footer {
-      padding-block: 8rem;
+      padding-block: 0;
+      margin-top: -50vh;
+      background-color: transparent;
+      z-index: 1;
+      position: relative;
+    }    
+    footer .wrapper{
+      padding:0;
+      height: 50%;
+      
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
-    footer .wrapper .content{
-      display: grid;
-      grid-template-areas: 'A B C';
-      grid-template-columns: 1fr 2fr 1fr;
-      padding: 0;
-      column-gap: 6.7rem;
-      align-items: start;
+    footer .infos{
+      display: flex; 
+      flex-direction: column;
+      align-self: center;
+      justify-content: flex-start;
     }
-    footer .wrapper .content .col-A{
-      grid-area: A;
+    footer .infos p:not(:last-of-type){
+      margin-bottom: 2.6rem;
     }
-    footer .wrapper .content .col-B{
-      grid-area: B;
-    }
-    footer .wrapper .social-links{
-      grid-area: C;
+    footer .infos p:last-of-type{
       align-self: flex-start;
-      justify-self: flex-end;
-      text-align: right;
+      justify-self: center;
+      text-align: left;
     }
 }
