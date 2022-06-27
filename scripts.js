@@ -221,6 +221,7 @@ function prepareEventsForSlideMobile() {
         }
 
         if (dir == 1) {
+          console.log(`se dir for para próximo`);
           selectedSliderItems.style.left = posInitial - slideSize + 'px';
           index++;
         } else if (dir == -1) {
