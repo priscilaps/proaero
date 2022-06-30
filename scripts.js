@@ -28,9 +28,9 @@ function activateMenuAtCurrentSection(section) {
 
 function showNavOnScroll() {
   if (scrollY > 0) {
-    navigation.classList.add('scroll');
+    document.getElementById('navigation').classList.add('scroll');
   } else {
-    navigation.classList.remove('scroll');
+    document.getElementById('navigation').classList.remove('scroll');
   }
 }
 
@@ -57,166 +57,148 @@ function closeMenu() {
 }
 
 //-------------SLIDER-BEGIN----------------//
-let sliderContainer,
-  sliderContainerWidth,
-  sliderItemWidth,
-  lastSlideTranslatePosition,
-  currentSlideTranslateX = 0,
-  pointerFirstPosition = 0,
-  pointerCurrentPosition = 0,
-  isDragging = false,
-  triggeredByClick = false,
-  animationID,
-  transitioningTranslateX;
+let slidesContainer,
+  posX1 = 0,
+  posX2 = 0,
+  posInitial,
+  posFinal,
+  threshold = 100,
+  slideSize,
+  slidesLength,
+  direction,
+  index = 0,
+  allowShift = true;
 
-function setSlider(slider) {
-  sliderContainer = document.querySelector(
-    `${slider} .wrapper-full .slider-container`,
-  );
-  let qtdSlide = sliderContainer.childElementCount;
-
-  sliderContainer.style.width = `${qtdSlide * 100}vw`;
-
-  sliderContainerWidth = sliderContainer.offsetWidth; // pega o tamanho do container de todos os slides
-  sliderItemWidth = document.querySelector('#industry .slide').offsetWidth; // Pega o tamanho do slide em pixels (ele é igual pra todos pois é o width dos slides são 100vw)
-  lastSlideTranslatePosition = -sliderContainerWidth + sliderItemWidth;
-}
-function setInicialDeviceSize() {
-  prepareEventsForSlideMobile();
-}
-function prepareEventsForSlideMobile() {
+function checkScreenSize() {
   if (window.outerWidth < 1024) {
-    document.querySelector(
-      `#industry .wrapper-full .slider-container`,
-    ).onpointerdown = dragStart;
-    document.querySelector(
-      `#industry .wrapper-full .slider-container`,
-    ).onpointerup = dragEnd;
-    document.querySelector(
-      `#services .wrapper-full .slider-container`,
-    ).onpointerdown = dragStart;
-    document.querySelector(
-      `#services .wrapper-full .slider-container`,
-    ).onpointerup = dragEnd;
+    // se for menor que 1024 deve ativar o slider adicionando a class slider-active
+    document.getElementById('industry').classList.add('slider-active');
+    document.getElementById('services').classList.add('slider-active');
 
-    document
-      .querySelector('#industry .scrollbar div.esquerda')
-      .addEventListener('pointerdown', isItClick);
-    document
-      .querySelector('#industry .scrollbar div.direita')
-      .addEventListener('pointerdown', isItClick);
-    document
-      .querySelector('#services .scrollbar div.esquerda')
-      .addEventListener('pointerdown', isItClick);
-    document
-      .querySelector('#services .scrollbar div.direita')
-      .addEventListener('pointerdown', isItClick);
+    // se for menor que 1024 deve ativar o slider adicionando a class slider-active
+    const listeningSliders = document.querySelectorAll(
+      '.slider-active .slider',
+    );
+    listeningSliders.forEach((slider) => {
+      // Touch events
+      slider.addEventListener('touchstart', dragStart);
+      slider.addEventListener('mousedown', dragStart);
+      slider.addEventListener('touchend', dragEnd);
+      slider.addEventListener('touchmove', dragAction);
+
+      // Mouse events
+      slider.onmousedown = dragStart;
+      // Transition events
+      slider.addEventListener('transitionend', checkIndex);
+      // Click events
+      slider.querySelector('.prev').addEventListener('click', function () {
+        shiftSlide(-1);
+      });
+      slider.querySelector('.next').addEventListener('click', function () {
+        shiftSlide(1);
+      });
+    });
+  } else {
+    document.getElementById('industry').classList.remove('slider-active');
+    document.getElementById('services').classList.remove('slider-active');
   }
-}
-
-function isItClick(e) {
-  triggeredByClick = true;
 }
 function dragStart(e) {
+  e = e || window.event;
   e.preventDefault();
-  triggeredByClick = false;
-  setSlider(`#${e.currentTarget.parentNode.parentNode.id}`);
-  pointerFirstPosition = e.clientX;
-  currentSlideTranslateX = findCurrentSlideTranslateX();
-  transitioningTranslateX = currentSlideTranslateX;
-
-  sliderContainer.onpointermove = dragMove;
-  sliderContainer.setPointerCapture(e.pointerId);
-  sliderContainer.classList.add('grabbing');
+  setUpSelectedSlide(e.target.closest('.slider-active')); //identifica qual slide estamos interagindo para inicializar
+  posInitial = slidesContainer[0].offsetLeft;
+  if (e.type == 'touchstart') {
+    posX1 = e.touches[0].clientX;
+  } else {
+    posX1 = e.clientX;
+    document.onmouseup = dragEnd;
+    document.onmousemove = dragAction;
+  }
 }
 function dragEnd(e) {
-  if (isDragging) {
-    shiftSlide(
-      `#${e.currentTarget.parentNode.parentNode.id}`,
-      defineDirection(),
-      currentSlideTranslateX,
-    );
-  }
-  isDragging = false;
-  cancelAnimationFrame(animation);
-  sliderContainer.onpointermove = null;
-  sliderContainer.releasePointerCapture(e.pointerId);
-  sliderContainer.classList.remove('grabbing');
-}
-function dragMove(e) {
-  isDragging = true;
-  pointerCurrentPosition = e.clientX;
-  animationID = requestAnimationFrame(animation);
-}
-function animation() {
-  sliderIsTransitioning = document.querySelector('.grabbing');
-  if (sliderIsTransitioning) {
-    if (defineDirection() == 'right') {
-      if (transitioningTranslateX > lastSlideTranslatePosition) {
-        transitioningTranslateX = transitioningTranslateX - 1;
-        sliderIsTransitioning.style.transform = `translateX(${transitioningTranslateX}px)`;
-      }
-    } else if (defineDirection() == 'left') {
-      if (transitioningTranslateX > 0) {
-        transitioningTranslateX = transitioningTranslateX + 1;
-        sliderIsTransitioning.style.transform = `translateX(${transitioningTranslateX}px)`;
-      }
-    }
+  posFinal = slidesContainer[0].offsetLeft;
+  if (posFinal - posInitial < -threshold) {
+    shiftSlide(1, 'drag');
+  } else if (posFinal - posInitial > threshold) {
+    shiftSlide(-1, 'drag');
   } else {
-    return;
+    slidesContainer[0].style.left = posInitial + 'px';
   }
-  requestAnimationFrame(animation);
+
+  document.onmouseup = null;
+  document.onmousemove = null;
 }
-function findCurrentSlideTranslateX() {
-  numberValue = sliderContainer.style.transform
-    .replace('translateX(', '')
-    .replace('px)', '');
-  // separa apenas o valor numérico contidos na propriedade transform
-  return parseInt(numberValue);
+function dragAction(e) {
+  e = e || window.event;
+
+  if (e.type == 'touchmove') {
+    posX2 = posX1 - e.touches[0].clientX;
+    posX1 = e.touches[0].clientX;
+  } else {
+    posX2 = posX1 - e.clientX;
+    posX1 = e.clientX;
+  }
+  slidesContainer[0].style.left = slidesContainer[0].offsetLeft - posX2 + 'px';
 }
-function setNextSlideTranslatePosition(translateNumber) {
-  sliderContainer.style.transform = `translateX(${translateNumber}px)`;
+function setUpSelectedSlide(selectedSlideSection) {
+  slidesContainer = selectedSlideSection.getElementsByClassName('slides');
+  slideSize =
+    selectedSlideSection.getElementsByClassName('slide')[0].offsetWidth;
+  let slides = selectedSlideSection.getElementsByClassName('slide');
+  slidesLength = slides.length;
+  let firstSlide = slides[0],
+    lastSlide = slides[slidesLength - 1],
+    cloneFirst = firstSlide.cloneNode(true),
+    cloneLast = lastSlide.cloneNode(true);
+
+  // Clone first and last slide
+  if (
+    !selectedSlideSection
+      .getElementsByClassName('slider')[0]
+      .classList.contains('loaded')
+  ) {
+    slidesContainer[0].appendChild(cloneFirst);
+    slidesContainer[0].insertBefore(cloneLast, firstSlide);
+    selectedSlideSection
+      .getElementsByClassName('slider')[0]
+      .classList.add('loaded');
+    slidesContainer[0].style.left = -(1 * slideSize) + 'px';
+    index = 1; // posiciona o primeiro slider de volta no começo (ele ia pro clone do ultimo apos clonar)
+  }
 }
-function defineDirection() {
-  if (pointerFirstPosition) {
-    if (pointerFirstPosition > pointerCurrentPosition) {
-      return 'right';
-    } else {
-      return 'left';
+function shiftSlide(dir, action) {
+  slidesContainer[0].classList.add('shifting');
+
+  if (allowShift) {
+    if (!action) {
+      posInitial = slidesContainer[0].offsetLeft;
+    }
+
+    if (dir == 1) {
+      direction = 1;
+      slidesContainer[0].style.left = posInitial - slideSize + 'px';
+      index++;
+    } else if (dir == -1) {
+      direction = -1;
+      slidesContainer[0].style.left = posInitial + slideSize + 'px';
+      index--;
     }
   }
+
+  allowShift = false;
 }
-function shiftSlide(slider, dir, currentSlideTranslateX) {
-  setSlider(slider);
-  if (!currentSlideTranslateX && triggeredByClick == true) {
-    currentSlideTranslateX = findCurrentSlideTranslateX();
+function checkIndex() {
+  slidesContainer[0].classList.remove('shifting');
+
+  if (index == 0) {
+    slidesContainer[0].style.left = -((slidesLength - 2) * slideSize) + 'px'; // - 2 clones na qtd de slides
+    index = slidesLength - 1;
+  } else if (index == slidesLength - 1) {
+    slidesContainer[0].style.left = -(1 * slideSize) + 'px';
+    index = 1;
   }
-  if (dir == 'left') {
-    if (currentSlideTranslateX == '0') {
-      // verifica se é o primeiro slide da direita pra esquerda
-      setNextSlideTranslatePosition(lastSlideTranslatePosition);
-      // move para o ultimo slide
-    } else {
-      if (currentSlideTranslateX >= lastSlideTranslatePosition) {
-        // verifica se o numero for maior ou igual a ultima posição
-        currentSlideTranslateX = currentSlideTranslateX + sliderItemWidth;
-        setNextSlideTranslatePosition(currentSlideTranslateX);
-      }
-    }
-  } else if (dir == 'right') {
-    if (currentSlideTranslateX == lastSlideTranslatePosition) {
-      // verifica se é o ultimo slide da direita pra esquerda
-      lastSlideToRight = true;
-      setNextSlideTranslatePosition(0); // move para o primeiro slide
-    } else {
-      lastSlideToRight = false;
-      if (currentSlideTranslateX > lastSlideTranslatePosition) {
-        // verifica se o numero for menor a ultima posição
-        currentSlideTranslateX = currentSlideTranslateX - sliderItemWidth;
-        setNextSlideTranslatePosition(currentSlideTranslateX); // move para o próximo
-      }
-    }
-  }
+  allowShift = true;
 }
 
 //-------------SLIDER-END----------------//
