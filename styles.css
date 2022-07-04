@@ -160,8 +160,16 @@ nav {
   z-index: 100;
 }
 nav .menu,
-nav .closeMenu {
+nav .closeMenu, 
+nav .menu.social-links {
   display: none;
+}
+nav .menu, 
+nav .menu.social-links{
+  height: 0;
+  opacity: 0;
+  transition: all .5s ease-in-out;
+  transition-delay: .2s;
 }
 nav .wrapper {
   display: grid;
@@ -208,6 +216,8 @@ body.menu-expanded nav{
   background-color: white;
 }
 body.menu-expanded nav .menu{
+  height: auto;
+  opacity: 1;
   grid-area: menu;
 
   margin-block: auto;
@@ -240,6 +250,8 @@ body.menu-expanded .menu > ul li a:active{
   color:var(--primary-color);
 }
 body.menu-expanded .menu .social-links{
+  height: auto;
+  opacity: 1;
   margin-top: 5rem;
 }
 body.menu-expanded .menu .social-links svg *{
