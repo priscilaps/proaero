@@ -170,7 +170,7 @@ nav .wrapper {
   'menu menu';
   grid-template-rows: auto auto;
   align-self: center;
-  align-items: stretch;
+  align-items: center;
   border: none;
 }
 nav .wrapper .logo {
@@ -255,6 +255,7 @@ body.menu-expanded nav .closeMenu path{
 body.menu-expanded nav .wrapper{
   width: min(50rem, 100%);  
   grid-template-rows: auto 80vh;
+  padding-block: 2rem;
 }
 /*======== HOME/HEADER ====================================*/
 #home {
