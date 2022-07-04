@@ -55,7 +55,9 @@ function closeMenu() {
     .querySelector('nav .wrapper .logo img')
     .setAttribute('src', './assets/Logo-PRO-AERO-principal-sem-sombras.svg');
 }
-
+function getScrollbarWidth() {
+  return window.innerWidth - document.documentElement.clientWidth;
+}
 //-------------SLIDER-BEGIN----------------//
 let slidesContainer,
   posX1 = 0,
@@ -67,7 +69,8 @@ let slidesContainer,
   slidesLength,
   direction,
   index = 0,
-  allowShift = true;
+  allowShift = true,
+  root;
 
 function checkScreenSize() {
   if (window.outerWidth < 1024) {
@@ -102,6 +105,9 @@ function checkScreenSize() {
     document.getElementById('industry').classList.remove('slider-active');
     document.getElementById('services').classList.remove('slider-active');
   }
+
+  root = document.documentElement;
+  root.style.setProperty('--scrollbar-width', getScrollbarWidth() + 'px');
 }
 function dragStart(e) {
   e = e || window.event;

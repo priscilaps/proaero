@@ -6,8 +6,9 @@
   --tertiary-color: #575757;
   
   --nav-height: 8.4rem;
-  --slider-width: 100vw;
-  --slider-height: calc(100vh - var(--nav-height));
+  --slider-width: calc(100vw - var(--scrollbar-width));
+  --slider-height: 100vh;
+  --scrollbar-width: 0px;
 }
 * {
   margin: 0;
@@ -369,7 +370,7 @@ body.menu-expanded nav .wrapper{
   content: '';
   width: var(--slider-width);
   height: var(--slider-height);
-  background-size: auto 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
@@ -379,11 +380,9 @@ body.menu-expanded nav .wrapper{
   transition: opacity .3s;
 }
 #industry .slider .wrapper-full .slides div.tech::before{
-  background-color: blue;
   background-image: url('./assets/tech.jpg');
 }
-#industry .slider .wrapper-full .slides div.safety::before{
-  background-color: green;
+#industry .slider .wrapper-full .slides div.safety::before{ 
   background-image: url('./assets/safety.jpg');
 }
 #industry .slider .wrapper-full .slides div.systems::before{
@@ -434,26 +433,36 @@ body.menu-expanded nav .wrapper{
 }
 #services .slider .wrapper-full .slides .slide img{
   width: 20rem;
-  margin-bottom: 5rem;
 }
-#services .slider .wrapper-full .slides::before{
+#services .slider .wrapper-full .slides .slide::before{
   content: '';
-  width: 400vw;
+  width: var(--slider-width);
   height: 100vh;
-  background-size: 400vw auto;
-  background-position: left;
+  background-size: 100%;
+  background-position: center center;
   background-repeat: no-repeat;
   position: absolute;
   display: block;
   z-index: -1;
   opacity: 1;
+  top: 0;
+  left: 0;
   transition: opacity .3s ease-in-out;
 }
 #services .slider .wrapper-full .slides.grabbing::before{
   opacity: 0.5;
 }
-#services .slider .wrapper-full .slides::before{
-  background-image: url('./assets/bg-servicos.jpg');
+#services .slider .wrapper-full .slides div.tech::before{
+  background-image: url('./assets/bg-tech.png');
+}
+#services .slider .wrapper-full .slides div.safety::before{
+  background-image: url('./assets/bg-safety.png');
+}
+#services .slider .wrapper-full .slides div.systems::before{
+  background-image: url('./assets/bg-systems.png');
+}
+#services .slider .wrapper-full .slides div.academy::before{
+  background-image: url('./assets/bg-academy.png');
 }
 /*======== SYSTEMS ====================================*/
 #systems{
@@ -728,6 +737,9 @@ body.menu-expanded nav .wrapper{
      max-width: 25vw;
      flex: 1 0 0;
    }
+   #services .slider .wrapper-full .slides .slide{
+    padding-bottom: 2rem;
+  }
    #industry:not(.slide-active) .slider .wrapper-full .slides .slide,
    #services:not(.slide-active) .slider .wrapper-full .slides .slide{
      cursor: initial;
@@ -738,11 +750,29 @@ body.menu-expanded nav .wrapper{
    #industry .wrapper-full .slides .slide img{
      width: 70%;
    }
-   #industry .slider .wrapper-full .scrollbar{
+   #industry .slider .wrapper-full .scrollbar,
+   #services .slider .wrapper-full .scrollbar{
      display: none;
    }
+
+   #services .slider .wrapper-full .slides .slide::before{
+    display: none;
+   }
    #services .slider .wrapper-full .slides::before{
-    background-size: 100vw auto;
+    content: '';
+    width: 100%;
+    height: 100vh;
+    background-size: 100% auto;
+    background-image: url('./assets/bg-servicos.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: absolute;
+    display: block;
+    z-index: -1;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    transition: opacity .3s ease-in-out;
   }
     /*======== SYSTEMS ====================================*/
     #systems .wrapper h2{
