@@ -493,6 +493,7 @@ body.menu-expanded nav .wrapper{
 /*======== TEAM ====================================*/
 #team .wrapper .col-A{
   padding-block: 5rem;
+  
   height: calc(100vh - (1.5rem + var(--nav-height)) );
 }
 
@@ -782,7 +783,7 @@ body.menu-expanded nav .wrapper{
    }
    #industry .wrapper-full .slides .slide,
    #services .wrapper-full .slides .slide{
-     max-width: 25vw;
+     max-width: calc(var(--slider-width)/4);
      flex: 1 0 0;
    }
    #services .slider .wrapper-full .slides .slide{
@@ -843,7 +844,7 @@ body.menu-expanded nav .wrapper{
       background-image: url('./assets/ProAeroEquipe_2-2.jpg');
       background-repeat: no-repeat;
       background-position: right bottom;
-      background-size: auto 100vh;
+      background-size: auto 100%;
       padding-top: 0;
       padding-bottom: 0;
       padding-right: 0;
