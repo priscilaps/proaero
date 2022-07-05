@@ -1,4 +1,5 @@
 window.addEventListener('scroll', onScroll);
+setScrollbarWidth();
 
 function onScroll() {
   showNavOnScroll();
@@ -8,6 +9,7 @@ function onScroll() {
   activateMenuAtCurrentSection(industry);
   activateMenuAtCurrentSection(services);
   activateMenuAtCurrentSection(systems);
+  activateMenuAtCurrentSection(team);
   activateMenuAtCurrentSection(contact);
 }
 
@@ -25,6 +27,29 @@ function activateMenuAtCurrentSection(section) {
   currentMenu.classList.remove('active');
   if (sectionStartReachOrPassedTargeLine && !sectionEndPassedTargetLine) {
     currentMenu.classList.add('active');
+
+    switch (sectionId) {
+      case 'about':
+        currentSection.children[0].innerText = 'Quem Somos';
+        break;
+      case 'industry':
+        currentSection.children[0].innerText = 'Atuação';
+        break;
+      case 'services':
+        currentSection.children[0].innerText = 'Serviços';
+        break;
+      case 'systems':
+        currentSection.children[0].innerText = 'Sistemas';
+        break;
+      case 'team':
+        currentSection.children[0].innerText = 'Equipe';
+        break;
+      case 'contact':
+        currentSection.children[0].innerText = 'Contato';
+        break;
+      default:
+        currentSection.children[0].innerText = sectionId;
+    }
   }
 }
 
@@ -57,159 +82,15 @@ function closeMenu() {
     .querySelector('nav .wrapper .logo img')
     .setAttribute('src', './assets/Logo-PRO-AERO-principal-sem-sombras.svg');
 }
-function getScrollbarWidth() {
-  return window.innerWidth - document.documentElement.clientWidth;
-}
-//-------------SLIDER-BEGIN----------------//
-let slidesContainer,
-  posX1 = 0,
-  posX2 = 0,
-  posInitial,
-  posFinal,
-  threshold = 100,
-  slideSize,
-  slidesLength,
-  direction,
-  index = 0,
-  allowShift = true,
-  root;
-
-function checkScreenSize() {
-  if (window.outerWidth < 1024) {
-    // se for menor que 1024 deve ativar o slider adicionando a class slider-active
-    document.getElementById('industry').classList.add('slider-active');
-    document.getElementById('services').classList.add('slider-active');
-
-    // se for menor que 1024 deve ativar o slider adicionando a class slider-active
-    const listeningSliders = document.querySelectorAll(
-      '.slider-active .slider',
-    );
-    listeningSliders.forEach((slider) => {
-      // Touch events
-      slider.addEventListener('touchstart', dragStart);
-      slider.addEventListener('mousedown', dragStart);
-      slider.addEventListener('touchend', dragEnd);
-      slider.addEventListener('touchmove', dragAction);
-
-      // Mouse events
-      slider.onmousedown = dragStart;
-      // Transition events
-      slider.addEventListener('transitionend', checkIndex);
-      // Click events
-      slider.querySelector('.prev').addEventListener('click', function () {
-        shiftSlide(-1);
-      });
-      slider.querySelector('.next').addEventListener('click', function () {
-        shiftSlide(1);
-      });
-    });
-  } else {
-    document.getElementById('industry').classList.remove('slider-active');
-    document.getElementById('services').classList.remove('slider-active');
-  }
-
+function setScrollbarWidth() {
   root = document.documentElement;
-  root.style.setProperty('--scrollbar-width', getScrollbarWidth() + 'px');
-}
-function dragStart(e) {
-  e = e || window.event;
-  e.preventDefault();
-  setUpSelectedSlide(e.target.closest('.slider-active')); //identifica qual slide estamos interagindo para inicializar
-  posInitial = slidesContainer[0].offsetLeft;
-  if (e.type == 'touchstart') {
-    posX1 = e.touches[0].clientX;
-  } else {
-    posX1 = e.clientX;
-    document.onmouseup = dragEnd;
-    document.onmousemove = dragAction;
-  }
-}
-function dragEnd(e) {
-  posFinal = slidesContainer[0].offsetLeft;
-  if (posFinal - posInitial < -threshold) {
-    shiftSlide(1, 'drag');
-  } else if (posFinal - posInitial > threshold) {
-    shiftSlide(-1, 'drag');
-  } else {
-    slidesContainer[0].style.left = posInitial + 'px';
-  }
-
-  document.onmouseup = null;
-  document.onmousemove = null;
-}
-function dragAction(e) {
-  e = e || window.event;
-
-  if (e.type == 'touchmove') {
-    posX2 = posX1 - e.touches[0].clientX;
-    posX1 = e.touches[0].clientX;
-  } else {
-    posX2 = posX1 - e.clientX;
-    posX1 = e.clientX;
-  }
-  slidesContainer[0].style.left = slidesContainer[0].offsetLeft - posX2 + 'px';
-}
-function setUpSelectedSlide(selectedSlideSection) {
-  slidesContainer = selectedSlideSection.getElementsByClassName('slides');
-  slideSize =
-    selectedSlideSection.getElementsByClassName('slide')[0].offsetWidth;
-  let slides = selectedSlideSection.getElementsByClassName('slide');
-  slidesLength = slides.length;
-  let firstSlide = slides[0],
-    lastSlide = slides[slidesLength - 1],
-    cloneFirst = firstSlide.cloneNode(true),
-    cloneLast = lastSlide.cloneNode(true);
-
-  // Clone first and last slide
-  if (
-    !selectedSlideSection
-      .getElementsByClassName('slider')[0]
-      .classList.contains('loaded')
-  ) {
-    slidesContainer[0].appendChild(cloneFirst);
-    slidesContainer[0].insertBefore(cloneLast, firstSlide);
-    selectedSlideSection
-      .getElementsByClassName('slider')[0]
-      .classList.add('loaded');
-    slidesContainer[0].style.left = -(1 * slideSize) + 'px';
-    index = 1; // posiciona o primeiro slider de volta no começo (ele ia pro clone do ultimo apos clonar)
-  }
-}
-function shiftSlide(dir, action) {
-  slidesContainer[0].classList.add('shifting');
-
-  if (allowShift) {
-    if (!action) {
-      posInitial = slidesContainer[0].offsetLeft;
-    }
-
-    if (dir == 1) {
-      direction = 1;
-      slidesContainer[0].style.left = posInitial - slideSize + 'px';
-      index++;
-    } else if (dir == -1) {
-      direction = -1;
-      slidesContainer[0].style.left = posInitial + slideSize + 'px';
-      index--;
-    }
-  }
-
-  allowShift = false;
-}
-function checkIndex() {
-  slidesContainer[0].classList.remove('shifting');
-
-  if (index == 0) {
-    slidesContainer[0].style.left = -((slidesLength - 2) * slideSize) + 'px'; // - 2 clones na qtd de slides
-    index = slidesLength - 1;
-  } else if (index == slidesLength - 1) {
-    slidesContainer[0].style.left = -(1 * slideSize) + 'px';
-    index = 1;
-  }
-  allowShift = true;
+  root.style.setProperty(
+    '--scrollbar-width',
+    window.innerWidth - document.documentElement.clientWidth + 'px',
+  );
+  return;
 }
 
-//-------------SLIDER-END----------------//
 ScrollReveal({
   origin: 'top',
   distance: '50px',
@@ -223,6 +104,7 @@ ScrollReveal({
   #services,
   #services .card,
   #systems,
+  #team,
   #contact,
   #contact > .wrapper,
   #contact img,

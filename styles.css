@@ -174,21 +174,33 @@ nav .menu.social-links{
 nav .wrapper {
   display: grid;
   grid-template-areas: 
-  'logo button'
-  'menu menu';
+  'logo currentSection button'
+  'menu menu menu';
   grid-template-rows: auto auto;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 2rem;
   align-self: center;
   align-items: center;
   border: none;
 }
+
 nav .wrapper .logo {
   grid-area: logo;
   justify-self: start;
   align-content: center;
 }
+
 nav .wrapper .logo img{
   width:  13rem;
   height: 3.6rem;
+}
+nav .wrapper #currentSection{
+  grid-area: currentSection;
+  justify-self: flex-end;
+  text-align: right;
+
+  color: var(--tertiary-color);
+  transition: all .3s ease-in-out;
 }
 nav .openMenu path {
   stroke: var(--tertiary-color);
@@ -302,81 +314,43 @@ body.menu-expanded nav .wrapper{
 #about .wrapper p {
   margin-bottom: 2rem;
 }
-/*======== INDUSTRY | SERVICES (SLIDERS) ====================================*/
+/*======== INDUSTRY | SERVICES  ====================================*/
 #industry,
 #services{
   position: relative;
+  height: calc(var(--slider-height) * 4);
+  width: var(--slider-width);
 }
 #industry .slider,
 #services .slider{
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--slider-width);
-  height: var(--slider-height);
+  top: 0;
+  left: 0;
 }
 
 #industry .slider .wrapper-full,
 #services .slider .wrapper-full{
   overflow: hidden;
-  position: relative;
-  width: var(--slider-width);
-  height: var(--slider-height);
   z-index: 1;
 }
 
 #industry .slider .wrapper-full .slides,
 #services .slider .wrapper-full .slides{
   display: flex;
-  position: relative;
-  top: 0;
-  left: - var(--slider-width);
-  width: calc(var(--slider-width)*6);
+  flex-direction: column;
+  overflow: hidden;
 }
-
-#industry .slider .wrapper-full .slides.shifting,
-#services .slider .wrapper-full .slides.shifting{
-  transition: left .2s ease-out;
-}
-
-#industry .slider .wrapper-full .scrollbar,
-#services .slider .wrapper-full .scrollbar{
-  position: absolute;
-  bottom: 1.5rem;
+#industry .slider .wrapper-full .slides .slide::after{
+  content: '';
   width: 100%;
-  height: 23px;
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  justify-content: center;
-  background: transparent;
-  border-radius: 50px;
-  margin-top: -20px;
-  z-index: 2;
+  height: 1px;
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
 }
-#industry .slider .wrapper-full .scrollbar .prev,
-#industry .slider .wrapper-full .scrollbar .next,
-#services .slider .wrapper-full .scrollbar .prev,
-#services .slider .wrapper-full .scrollbar .next {
-  background-size: 22px;
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-#industry .slider .wrapper-full .scrollbar .prev:active,
-#industry .slider .wrapper-full .scrollbar .next:active,
-#services .slider .wrapper-full .scrollbar .prev:active,
-#services .slider .wrapper-full .scrollbar .next:active {
-  transform: scale(.8);
-}
-
 /* ----- ONLY INDUSTRY SLIDER ----- */
 #industry .slider .wrapper-full .slides .slide{
   width: var(--slider-width);
   height: var(--slider-height);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -424,17 +398,23 @@ body.menu-expanded nav .wrapper{
   padding-top: calc(5rem + var(--nav-height) );
   padding-bottom: 8rem;
   padding-inline: 5rem;
-  height: 100vh;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
-  flex: 100vw 0 0;
-  gap: 2rem;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   transition: all 1s;
   position: relative;
-  border-radius: 2px;
+}
+#services .slider .wrapper-full .slides .slide::after{
+  content: '';
+  width: 100%;
+  height: 1px;
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
 }
 #services .slider .wrapper-full .slides .slide .conteudo{
   flex: 1;
@@ -467,9 +447,6 @@ body.menu-expanded nav .wrapper{
   top: 0;
   left: 0;
   transition: opacity .3s ease-in-out;
-}
-#services .slider .wrapper-full .slides.grabbing::before{
-  opacity: 0.5;
 }
 #services .slider .wrapper-full .slides div.tech::before{
   background-image: url('./assets/bg-tech.png');
@@ -513,7 +490,29 @@ body.menu-expanded nav .wrapper{
 #systems .wrapper .systems div img{
   width: 20rem;
 }
-
+/*======== TEAM ====================================*/
+#team {
+  background-image: url('./assets/ProAeroEquipe_2-3.jpg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100%;
+}
+#team .wrapper h2{
+  margin-bottom: 0;
+}
+#team .wrapper h2::after{
+  display: none;
+}
+#team .wrapper h2 + p::before {
+  content: '';
+  width: 100vw;
+  height: 1px;
+  transform: translateX(-101%);
+  top: 3.8rem;
+  background-color: var(--secondary-color);
+  position: absolute;
+  display: block;
+}
 /*======== CONTACT ====================================*/
 #contact {
   position: relative;
@@ -549,14 +548,16 @@ body.menu-expanded nav .wrapper{
 /*   background-color: var(--primary-color); */
 }
 #contact footer .wrapper{
-  padding: 5rem;
-  height: auto;
+  padding-top: calc(5rem + var(--nav-height));
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-
-  justify-content: space-around;
+  gap: 5rem;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  padding-inline: 5rem;
+  padding-bottom: 5rem;
 }
 #contact footer .wrapper .logo img{
   width: 25.8rem;
@@ -656,9 +657,13 @@ body.menu-expanded nav .wrapper{
   /*======== NAVIGATION ====================================*/
   nav#navigation .wrapper {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 4fr;
     grid-template-areas: 
+    'logo menu'
     'logo menu';
+  }
+  nav#navigation .wrapper #currentSection{
+    display: none;
   }
   nav#navigation .menu{
     display: block;
@@ -754,9 +759,13 @@ body.menu-expanded nav .wrapper{
     display: block;
   }
    /*======== INDUSTRY ====================================*/
-   #industry .wrapper-full .slides,
-   #services .wrapper-full .slides{
+   #industry, #services{
+    height: var(--slider-height);
+   }
+   #industry .slider .wrapper-full .slides,
+   #services .slider .wrapper-full .slides{
      max-width: 100%;
+     flex-direction: row;
    }
    #industry .wrapper-full .slides .slide,
    #services .wrapper-full .slides .slide{
@@ -765,6 +774,10 @@ body.menu-expanded nav .wrapper{
    }
    #services .slider .wrapper-full .slides .slide{
     padding-bottom: 2rem;
+  }
+  #industry  .slider .wrapper-full .slides .slide::after,
+  #services .slider .wrapper-full .slides .slide::after{
+    display: none;
   }
    #industry:not(.slide-active) .slider .wrapper-full .slides .slide,
    #services:not(.slide-active) .slider .wrapper-full .slides .slide{
@@ -776,11 +789,6 @@ body.menu-expanded nav .wrapper{
    #industry .wrapper-full .slides .slide img{
      width: 70%;
    }
-   #industry .slider .wrapper-full .scrollbar,
-   #services .slider .wrapper-full .scrollbar{
-     display: none;
-   }
-
    #services .slider .wrapper-full .slides .slide::before{
     display: none;
    }
@@ -844,6 +852,28 @@ body.menu-expanded nav .wrapper{
       padding-top: 5rem;
       width: 100%;
       max-width: 20rem;
+    }
+    /*======== FOOTER ====================================*/
+    section#team {
+      background-image: url('./assets/ProAeroEquipe_2-2.jpg');
+      background-repeat: no-repeat;
+      background-position: right bottom;
+      background-size: auto 100vh;
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+    }
+    #team .wrapper{
+      display: flex;
+      height: 100vh;
+      align-items: center;
+    }
+    #team .wrapper .col-A{
+      flex: 1;
+      padding-top: calc(5rem + var(--nav-height));
+    }
+    #team .wrapper .col-B{
+      flex: 2;
     }
     /*======== FOOTER ====================================*/
     #contact footer{
