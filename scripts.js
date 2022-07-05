@@ -4,8 +4,10 @@ function onScroll() {
   showNavOnScroll();
   backToTopOnScroll();
   activateMenuAtCurrentSection(home);
-  activateMenuAtCurrentSection(services);
   activateMenuAtCurrentSection(about);
+  activateMenuAtCurrentSection(industry);
+  activateMenuAtCurrentSection(services);
+  activateMenuAtCurrentSection(systems);
   activateMenuAtCurrentSection(contact);
 }
 
