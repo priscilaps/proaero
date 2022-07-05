@@ -491,11 +491,24 @@ body.menu-expanded nav .wrapper{
   width: 20rem;
 }
 /*======== TEAM ====================================*/
-#team {
-  background-image: url('./assets/ProAeroEquipe_2-3.jpg');
+#team .wrapper .col-A{
+  padding-block: 5rem;
+  height: calc(100vh - (1.5rem + var(--nav-height)) );
+}
+
+#team .wrapper .col-A:after{
+  position: relative;
+  display: block;
+  content: '';
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--slider-width);
+  height: 100%;
+  background-image: url('./assets/ProAeroEquipe_2.jpg');
   background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: 100%;
+  background-position: center center;
+  background-size: cover;
 }
 #team .wrapper h2{
   margin-bottom: 0;
@@ -825,6 +838,25 @@ body.menu-expanded nav .wrapper{
     #systems .wrapper .systems div img{
       width: 40rem;
     }
+    /*======== TEAM ====================================*/
+    section#team {
+      background-image: url('./assets/ProAeroEquipe_2-2.jpg');
+      background-repeat: no-repeat;
+      background-position: right bottom;
+      background-size: auto 100vh;
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+    }
+    #team .wrapper {
+      padding-top: calc(5rem + var(--nav-height));
+    }
+    #team .wrapper .col-A{
+      max-width: 30%;
+    }
+    #team .wrapper .col-A:after{
+      display: none;
+    }
     /*======== CONTACT ====================================*/
     #contact .wrapper{
       height: calc(100vh - var(--nav-height));
@@ -852,28 +884,6 @@ body.menu-expanded nav .wrapper{
       padding-top: 5rem;
       width: 100%;
       max-width: 20rem;
-    }
-    /*======== FOOTER ====================================*/
-    section#team {
-      background-image: url('./assets/ProAeroEquipe_2-2.jpg');
-      background-repeat: no-repeat;
-      background-position: right bottom;
-      background-size: auto 100vh;
-      padding-top: 0;
-      padding-bottom: 0;
-      padding-right: 0;
-    }
-    #team .wrapper{
-      display: flex;
-      height: 100vh;
-      align-items: center;
-    }
-    #team .wrapper .col-A{
-      flex: 1;
-      padding-top: calc(5rem + var(--nav-height));
-    }
-    #team .wrapper .col-B{
-      flex: 2;
     }
     /*======== FOOTER ====================================*/
     #contact footer{
