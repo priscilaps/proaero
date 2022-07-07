@@ -491,6 +491,9 @@ body.menu-expanded nav .wrapper{
   width: 20rem;
 }
 /*======== TEAM ====================================*/
+#team{
+  background-color: var(--primary-color);
+}
 #team .wrapper .col-A{
   padding-block: 5rem;
   
@@ -610,7 +613,29 @@ body.menu-expanded nav .wrapper{
 #contact footer .wrapper .infos p:last-of-type{
   text-align: right;
 }
+/*======== LANGUAGE SWITCH ====================================*/
+#language {
+  position: fixed;
+  top: var(--nav-height);
+  right: 2rem;
+  width: auto;
+  height: auto;
+  padding: 1rem;
 
+  background-color: var(--primary-color);
+  color: white;
+  font-size: .6rem;
+  text-decoration: none;
+  border: .1rem solid white;
+  border-top: none;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+
+  transition: all .5s ease-in-out;
+}
+#language:hover {
+  padding-top: 2rem;
+}
 /*======== BACK TO TOP BUTTON ====================================*/
 #backToTop {
   position: fixed;
@@ -631,12 +656,19 @@ body.menu-expanded nav .wrapper{
   fill: var(--primary-color);
   transition: all .2s ease-in-out;
 }
-#backToTop:hover svg circle{
-  fill: var(--primary-color-hover);
+#backToTop:hover{
+  animation-name: moveToTop;
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 #backToTop.show{
   opacity: 1;
   visibility: visible;
+}
+@keyframes moveToTop{
+  from {bottom: 2rem;}
+  to {bottom: 3rem;}
 }
 
 /*======== RESPONSIVIDADE ====================================*/
