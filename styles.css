@@ -192,7 +192,7 @@ nav .wrapper .logo {
 
 nav .wrapper .logo img{
   width:  13rem;
-  height: 3.6rem;
+  height: auto;
 }
 nav .wrapper #currentSection{
   grid-area: currentSection;
@@ -306,7 +306,7 @@ body.menu-expanded nav .wrapper{
 
 /*======== ABOUT ====================================*/
 #about .wrapper{
-  padding-block: 10rem;
+  padding-block: 2.5rem;
 }
 #about .wrapper h2.missao{
   margin-top: 10rem;
@@ -386,7 +386,7 @@ body.menu-expanded nav .wrapper{
 }
 #industry .slider .wrapper-full .slides .slide img{
   width: 30rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 #industry .slider .wrapper-full .slides .slider.loaded .slide{
   background: transparent;
@@ -705,18 +705,22 @@ body.menu-expanded nav .wrapper{
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-areas: 
-    'logo menu'
     'logo menu';
+  }
+  nav#navigation .wrapper .logo{
+    display: flex;
   }
   nav#navigation .wrapper #currentSection{
     display: none;
   }
   nav#navigation .menu{
-    display: block;
+    display: flex;
   }
   nav#navigation .menu ul{
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    align-self: center;
     gap: 3.2rem;
     padding-block: 1rem;
   }

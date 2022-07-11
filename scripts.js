@@ -71,16 +71,10 @@ function backToTopOnScroll() {
 
 function openMenu() {
   document.querySelector('body').classList.add('menu-expanded');
-  document
-    .querySelector('body.menu-expanded nav .wrapper .logo img')
-    .setAttribute('src', './assets/Logo-PRO-AERO-principal-sem-sombras.svg');
 }
 
 function closeMenu() {
   document.querySelector('body').classList.remove('menu-expanded');
-  document
-    .querySelector('nav .wrapper .logo img')
-    .setAttribute('src', './assets/Logo-PRO-AERO-principal-sem-sombras.svg');
 }
 function setScrollbarWidth() {
   root = document.documentElement;
